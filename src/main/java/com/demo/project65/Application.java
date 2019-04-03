@@ -53,8 +53,10 @@ public class Application implements ApplicationRunner {
         Flux<Customer> customers = Flux.zip(names, colors).map(tupple -> {
             return new Customer(null, tupple.getT1(), tupple.getT2());
         });
-        repo.deleteAll().thenMany(customers.flatMap(c -> repo.save(c))
-                .thenMany(repo.findAll())).subscribe(System.out::println);
+        repo.deleteAll()
+                .thenMany(customers.flatMap(c -> repo.save(c))
+                        .thenMany(repo.findAll())
+                ).subscribe(System.out::println);
     }
 }
 
@@ -89,11 +91,13 @@ class AppController {
 @Configuration
 @EnableR2dbcRepositories
 class DatabaseConfiguration extends AbstractR2dbcConfiguration {
+
     @Bean
     public ConnectionFactory connectionFactory() {
         return new PostgresqlConnectionFactory(
                 PostgresqlConnectionConfiguration.builder()
                         .host("localhost")
+                        .port(5432)
                         .database("demodb")
                         .username("demouser")
                         .password("demopwd")
