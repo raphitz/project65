@@ -81,7 +81,7 @@ class AppController {
     }
 
     @GetMapping("/find")
-    public Flux<Customer> findById(@RequestParam String name,@RequestParam Integer age) {
+    public Flux<Customer> findById(@RequestParam String name, @RequestParam Integer age) {
         return repo.findByNameAndAge(name, age);
     }
 }
@@ -106,7 +106,7 @@ class DatabaseConfiguration extends AbstractR2dbcConfiguration {
 interface CustomerRepository extends ReactiveCrudRepository<Customer, Long> {
 
     @Query("select * from customer where name = $1 and age = $2")
-    Flux<Customer> findByNameAndAge(String name,Integer age);
+    Flux<Customer> findByNameAndAge(String name, Integer age);
 }
 
 @Data
