@@ -49,8 +49,8 @@ public class Application implements ApplicationRunner {
     public void run(ApplicationArguments args) throws Exception {
         log.info("Seeding data!");
         Flux<String> names = Flux.just("raj", "david", "pam").delayElements(Duration.ofSeconds(1));
-        Flux<Integer> colors = Flux.just(25, 27, 30).delayElements(Duration.ofSeconds(1));
-        Flux<Customer> customers = Flux.zip(names, colors).map(tupple -> {
+        Flux<Integer> ages = Flux.just(25, 27, 30).delayElements(Duration.ofSeconds(1));
+        Flux<Customer> customers = Flux.zip(names, ages).map(tupple -> {
             return new Customer(null, tupple.getT1(), tupple.getT2());
         });
         repo.deleteAll()
